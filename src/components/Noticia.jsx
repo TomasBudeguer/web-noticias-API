@@ -10,14 +10,13 @@ const Noticia = ({ noticia }) => {
           alt="Noticia sin imagen"
         />
         <Card.Body>
-          <Card.Subtitle className="mb-2">
-            {noticia.creator}
+          <Card.Title className="mb-3">{noticia.title}</Card.Title>
+          <Card.Subtitle className="mb-3"><Badge bg="secondary">Categoria </Badge>: {noticia.category}</Card.Subtitle>
+          <Card.Subtitle className="mb-4">
+            <Badge bg="secondary">Pais </Badge>: {noticia.country }
           </Card.Subtitle>
-          <Card.Subtitle className="text-end mb-2">
-            <Badge bg="secondary">{noticia.category}</Badge>
-          </Card.Subtitle>
-          <Card.Title className="mb-2">{noticia.title}</Card.Title>
           <Card.Text>{noticia.description || noticia.content}</Card.Text>
+          <Card.Subtitle className="mb-2">{noticia.creator}</Card.Subtitle>
         </Card.Body>
         <Card.Footer className="text-center">
           <a href={noticia.link}>
