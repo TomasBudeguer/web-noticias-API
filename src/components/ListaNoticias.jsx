@@ -1,10 +1,10 @@
 import { Row } from "react-bootstrap";
 import Noticia from "./Noticia";
 
-const ListaNoticias = () => {
+const ListaNoticias = ({noticias}) => {
     return (
         <Row>
-            <Noticia></Noticia>
+            {noticias.map((noticia, posicion)=>(<Noticia key={posicion} noticia={noticia}></Noticia>))}
         </Row>
     );
 };
