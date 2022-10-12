@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Form, Row, Col, Card, Button } from "react-bootstrap";
 import ListaNoticias from "./ListaNoticias";
+import Spinner from "./Spinner";
 
 const Formulario = () => {
   const [categoria, setCategoria] = useState("");
   const [noticias, setNoticias] = useState([]);
   const [pais, setPais] = useState("");
+  const [mostrarSpinner, setMostrarSpinner] = useState(false);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -18,14 +21,20 @@ const Formulario = () => {
 
   const consultarAPI = async () => {
     try {
+      setMostrarSpinner(true)
       const respuesta = await fetch(
         `https://newsdata.io/api/1/news?apikey=pub_120060cf3047975828a1d6a5b67b247f8d572&category=${categoria}&country=${pais}`
       );
       const dato = await respuesta.json();
       console.log(dato.results);
       setNoticias(dato.results);
-    } catch (error) {}
+      setMostrarSpinner(false)
+    } catch (error) {
+      alert('complete los dos campos')
+    }
   };
+
+  const mostrarComponente = (mostrarSpinner === true)?(<Spinner></Spinner>):(<ListaNoticias noticias={noticias}></ListaNoticias>)
 
   return (
     <Card className="my-4">
@@ -44,17 +53,17 @@ const Formulario = () => {
                   required
                 >
                   <option>Categorias</option>
-                  <option value="business">Business</option>
-                  <option value="entertainment">Entertainment</option>
-                  <option value="environment">Environment</option>
-                  <option value="food">Food</option>
-                  <option value="health">Health</option>
-                  <option value="politics">Politics</option>
-                  <option value="science">Science</option>
-                  <option value="sports">Sports</option>
-                  <option value="technology">Technology</option>
+                  <option value="business">Negocios</option>
+                  <option value="entertainment">Entretenimiento</option>
+                  <option value="environment">Ambiente</option>
+                  <option value="food">Alimentos</option>
+                  <option value="health">Salud</option>
+                  <option value="politics">Política</option>
+                  <option value="science">Ciencia</option>
+                  <option value="sports">Deportes</option>
+                  <option value="technology">Tecnología</option>
                   <option value="top">Top</option>
-                  <option value="world">World</option>
+                  <option value="world">Mundo</option>
                 </Form.Select>
               </Col>
             </Row>
@@ -73,7 +82,6 @@ const Formulario = () => {
                 >
                   <option>Paises</option>
                   <option value="ar">Argentina </option>
-                  <option value="au">Australia </option>
                   <option value="at">Austria </option>
                   <option value="bd">Bangladesh </option>
                   <option value="be">Belgium </option>
@@ -149,7 +157,7 @@ const Formulario = () => {
         </Form>
       </Card.Header>
       <Card.Body className="bgMasClaro">
-        <ListaNoticias noticias={noticias}></ListaNoticias>
+        {mostrarComponente}
       </Card.Body>
     </Card>
   );
